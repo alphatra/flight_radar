@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/gracjanziemianski/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/app/.cxx/Debug/3m73q1vp/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/gracjanziemianski/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/app/.cxx/Debug/3m73q1vp/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "ne::@6890427a1f51a3e7e1df": {
+      "artifactName": "ne",
+      "abi": "x86",
+      "output": "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/build/app/intermediates/cxx/Debug/3m73q1vp/obj/x86/libne.so",
+      "runtimeFiles": []
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "buildFiles": [
+    "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/gracjanziemianski/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+      "-C",
+      "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/app/.cxx/Debug/nw424r44/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/gracjanziemianski/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+    "-C",
+    "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/app/.cxx/Debug/nw424r44/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "ne::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "ne",
+      "output": "/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/build/app/intermediates/cxx/Debug/nw424r44/obj/x86/libne.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/gracjanziemianski/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/gracjanziemianski/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

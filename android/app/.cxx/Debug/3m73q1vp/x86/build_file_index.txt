@@ -1,0 +1,1 @@
+/Users/gracjanziemianski/Desktop/Projekty/flight_Radar/android/CMakeLists.txt

@@ -46,6 +46,7 @@
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		44550F302B3B76EC009552D2 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../../../../Downloads/json.hpp; sourceTree = "<group>"; };
 		44699F192B3A0E3A00FC6A63 /* na.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = na.cpp; sourceTree = "<group>"; };
 		44699F1A2B3A0E3A00FC6A63 /* na.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = na.hpp; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				44550F302B3B76EC009552D2 /* json.hpp */,
 				44699F192B3A0E3A00FC6A63 /* na.cpp */,
 				44699F1A2B3A0E3A00FC6A63 /* na.hpp */,
 				9740EEB11CF90186004384FC /* Flutter */,

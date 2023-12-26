@@ -25,3 +25,17 @@ String getHelloWorldString() {
   // Nie zwalniaj pamięci tutaj, ponieważ jest ona zarządzana przez C++
   return result;
 }
+
+typedef get_json_data_func = Pointer<Utf8> Function();
+typedef GetJsonDataFunc = Pointer<Utf8> Function();
+
+final GetJsonDataFunc getJsonData = nativeLib
+    .lookup<NativeFunction<get_json_data_func>>("get_json_data")
+    .asFunction();
+
+String fetchJsonData() {
+  final pointer = getJsonData();
+  final String jsonData = pointer.toDartString();
+  // Nie zwalniaj pamięci tutaj, ponieważ jest ona zarządzana przez C++
+  return jsonData;
+}

@@ -1,0 +1,10 @@
+name: helloWorld
+output: "native_add.dart"
+exclude-all-by-default: true
+headers:
+  entry-points:
+    - 'ios/na.hpp'
+    - 'ios/na.cpp'
+  include-directives:
+    - 'ios/na.hpp'
+    - 'ios/na.cpp'

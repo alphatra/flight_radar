@@ -20,3 +20,13 @@ const char* hello_world() {
     static std::string hw = "Hello World\n";
     return hw.c_str();
 }
+
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+const char* get_json_data() {
+    static std::string json_data = R"({
+        "title": "Flight Info",
+        "flightNumber": "1234AB",
+        "status": "On Time"
+    })";
+    return json_data.c_str();
+}

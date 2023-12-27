@@ -9,6 +9,7 @@ class BottomNavBar extends StatelessWidget {
     required this.selectedIndex,
     required this.onItemSelected,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return NavigationBar(

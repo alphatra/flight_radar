@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flight_radar/utilis/native_add.dart';
 import 'dart:convert';
 
-class HomeScreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   final String title;
 
-  const HomeScreen({
+  const SearchScreen({
     Key? key,
     required this.title,
   }) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {

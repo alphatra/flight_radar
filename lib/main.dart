@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       title: 'Flight Data',
-      home: const MyHomePage(title: 'Flight Radar'),
+      home: const MyHomePage(title: 'Flight Radarr'),
     );
   }
 }

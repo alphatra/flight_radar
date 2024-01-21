@@ -49,6 +49,9 @@
 		44550F302B3B76EC009552D2 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../../../../Downloads/json.hpp; sourceTree = "<group>"; };
 		44699F192B3A0E3A00FC6A63 /* na.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = na.cpp; sourceTree = "<group>"; };
 		44699F1A2B3A0E3A00FC6A63 /* na.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = na.hpp; sourceTree = "<group>"; };
+		4481BAC92B3F3F0200BAE9C6 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../../../../Downloads/json.hpp; sourceTree = "<group>"; };
+		4481BACB2B3F414800BAE9C6 /* curl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = curl.h; path = ../../../../../../opt/homebrew/Cellar/curl/8.3.0/include/curl/curl.h; sourceTree = "<group>"; };
+		4481BACD2B3F43A600BAE9C6 /* HTTPRequest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HTTPRequest.hpp; path = "../../../../Downloads/HTTPRequest-0.3/include/HTTPRequest.hpp"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -80,6 +83,14 @@
 			path = RunnerTests;
 			sourceTree = "<group>";
 		};
+		4481BACA2B3F414800BAE9C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4481BACB2B3F414800BAE9C6 /* curl.h */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,13 +105,16 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				4481BACD2B3F43A600BAE9C6 /* HTTPRequest.hpp */,
 				44550F302B3B76EC009552D2 /* json.hpp */,
 				44699F192B3A0E3A00FC6A63 /* na.cpp */,
+				4481BAC92B3F3F0200BAE9C6 /* json.hpp */,
 				44699F1A2B3A0E3A00FC6A63 /* na.hpp */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
 				331C8082294A63A400263BE5 /* RunnerTests */,
+				4481BACA2B3F414800BAE9C6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -370,6 +384,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = MVHA5YTTVV;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -546,6 +561,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = MVHA5YTTVV;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -569,6 +585,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = MVHA5YTTVV;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

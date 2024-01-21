@@ -1,39 +1,39 @@
-#include "json.hpp"
-#include <string>   
-#include <vector>
-#include <cstdlib>
-#include <ctime>
+#include "HTTPRequest.hpp"
+#include <string>
+#include <exception>
+#include <cstdio>  // Dla printf
 
-using json = nlohmann::json;
-
-json generateFlight() {
-    // Przykładowe dane do generowania lotów
-    static const std::vector<std::string> airlines = {"KLM", "LOT", "Lufthansa", "Ryanair"};
-    static const std::vector<std::string> origins = {"Londyn", "Warszawa", "Berlin", "Paryż"};
-    static const std::vector<std::string> destinations = {"Gdańsk", "Kraków", "Wrocław", "Poznań"};
-    static const std::vector<std::string> statuses = {"On Time", "Delayed", "Cancelled"};
-
-    json flight;
-    flight["flightNumber"] = "FL" + std::to_string(rand() % 900 + 100);
-    flight["airline"] = airlines[rand() % airlines.size()];
-    flight["origin"] = origins[rand() % origins.size()];
-    flight["destination"] = destinations[rand() % destinations.size()];
-    flight["departureTime"] = "2023-12-01T14:26:57";
-    flight["arrivalTime"] = "2023-12-01T20:26:57";
-    flight["status"] = statuses[rand() % statuses.size()];
-
-    return flight;
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+const char* fetchFlights() {
+    try {
+        http::Request request{"http://192.168.100.4:8080/flights"};
+        const auto response = request.send("GET");
+        char* cstr = new char[response.body.size() + 1];
+        std::strcpy(cstr, std::string(response.body.begin(), response.body.end()).c_str());
+        return cstr;
+    } catch (const std::exception& e) {
+        printf("Request failed, error: %s\n", e.what());
+        return nullptr;
+    }
 }
 
 extern "C" __attribute__((visibility("default"))) __attribute__((used))
-const char* get_flights_data() {
-    srand(time(nullptr));
+const char* fetchFlightsFromCity(const char* cityName) {
+    try {
+        // Tworzenie URL na podstawie nazwy miasta
+        std::string url = "http://172.20.10.2:8080/flights/fromCity/" + std::string(cityName);
 
-    json allFlights;
-    for (int i = 0; i < 1000; ++i) {
-        allFlights.push_back(generateFlight());
+        // Wykonanie zapytania HTTP GET
+        http::Request request{url};
+        const auto response = request.send("GET");
+
+        // Konwersja odpowiedzi na cstring
+        char* cstr = new char[response.body.size() + 1];
+        std::strcpy(cstr, std::string(response.body.begin(), response.body.end()).c_str());
+        return cstr;
+
+    } catch (const std::exception& e) {
+        printf("Request failed, error: %s\n", e.what());
+        return nullptr;
     }
-
-    static std::string flightsJsonString = allFlights.dump();
-    return flightsJsonString.c_str();
 }

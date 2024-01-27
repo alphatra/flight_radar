@@ -1,7 +1,9 @@
 #include "HTTPRequest.hpp"
 #include <string>
 #include <exception>
-#include <cstdio>  // Dla printf
+#include <cstdio>
+#include "httplib.h"
+#include "json.hpp"
 
 extern "C" __attribute__((visibility("default"))) __attribute__((used))
 const char* fetchFlights() {
@@ -70,6 +72,34 @@ const char* fetchFlightsFromToWithDateRange(const char* originCity, const char* 
         return cstr;
     } catch (const std::exception& e) {
         printf("Request failed, error: %s\n", e.what());
+        return nullptr;
+    }
+}
+
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+extern "C" const char* createBooking(int flightId, const char* seatNumber, const char* passengerName) {
+    try {
+        httplib::Client cli("http://192.168.100.4:8080");
+
+        nlohmann::json bookingData;
+        bookingData["flightId"] = flightId;
+        bookingData["seatNumber"] = seatNumber;
+        bookingData["passengerName"] = passengerName;
+
+        auto res = cli.Post("/createBooking/", bookingData.dump(), "application/json");
+
+        if (res && res->status == 200) {
+            char* cstr = new char[res->body.size() + 1];
+            std::strcpy(cstr, res->body.c_str());
+            return cstr;
+        } else {
+            // Handle error or null response
+                printf("Booking request failed, status: %d\n", res->status);
+            return nullptr;
+        }
+
+    } catch (const std::exception& e) {
+        printf("Booking request failed, error: %s\n", e.what());
         return nullptr;
     }
 }

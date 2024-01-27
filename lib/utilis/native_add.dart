@@ -14,13 +14,15 @@ typedef FetchFlightsFromToFunc = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<U
 typedef FetchFlightsFromTo = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef FetchFlightsFromToWithDateRangeFunc = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32);
 typedef FetchFlightsFromToWithDateRange = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int);
+typedef CreateBookingFunc = Pointer<Utf8> Function(Int32 flightId, Pointer<Utf8> seatNumber, Pointer<Utf8> passengerName);
+typedef CreateBooking = Pointer<Utf8> Function(int flightId, Pointer<Utf8> seatNumber, Pointer<Utf8> passengerName);
 
 class FlightService {
   late final FetchFlights _fetchFlights;
   late final FetchFlightsFromCity _fetchFlightsFromCity;
   late final FetchFlightsFromTo _fetchFlightsFromTo;
   late final FetchFlightsFromToWithDateRange _fetchFlightsFromToWithDateRange;
-
+  late final CreateBooking _createBooking;
   FlightService(DynamicLibrary dynamicLibrary) {
     _fetchFlights = dynamicLibrary
         .lookup<NativeFunction<FetchFlightsFunc>>('fetchFlights')
@@ -33,6 +35,9 @@ class FlightService {
         .asFunction();
     _fetchFlightsFromToWithDateRange = dynamicLibrary
         .lookup<NativeFunction<FetchFlightsFromToWithDateRangeFunc>>('fetchFlightsFromToWithDateRange')
+        .asFunction();
+    _createBooking = dynamicLibrary
+        .lookup<NativeFunction<CreateBookingFunc>>('createBooking')
         .asFunction();
   }
 
@@ -83,6 +88,19 @@ class FlightService {
     malloc.free(destinationCityPtr);
     malloc.free(startDatePtr);
     malloc.free(endDatePtr);
+    malloc.free(responsePtr);
+
+    return response;
+  }
+  Future<String> createBooking(int flightId, String seatNumber, String passengerName) async {
+    final seatNumberPtr = seatNumber.toNativeUtf8();
+    final passengerNamePtr = passengerName.toNativeUtf8();
+
+    final responsePtr = _createBooking(flightId, seatNumberPtr, passengerNamePtr);
+    final response = responsePtr.toDartString();
+
+    malloc.free(seatNumberPtr);
+    malloc.free(passengerNamePtr);
     malloc.free(responsePtr);
 
     return response;

@@ -1,11 +1,22 @@
+import 'package:flight_radar/utilis/native_add.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Do formatowania dat
 import 'package:gap/gap.dart';
-
+import 'package:flight_radar/widgets/booking_sheet.dart';
 class FlightListView extends StatelessWidget {
   final List<dynamic> flights;
 
   FlightListView({required this.flights});
+
+  void _showBookingSheet(BuildContext context, dynamic flight) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return BookingSheet(flight: flight);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +39,9 @@ class FlightListView extends StatelessWidget {
         String origin = flight['origin_city'] ?? 'Nieznane';
         String destination = flight['destination_city'] ?? 'Nieznane';
 
-        return Card(
+        return InkWell(
+            onTap: () => _showBookingSheet(context, flights[index]),
+        child: Card(
           elevation: 4,
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           child: Padding(
@@ -77,6 +90,7 @@ class FlightListView extends StatelessWidget {
               ],
             ),
           ),
+        ),
         );
       },
     );

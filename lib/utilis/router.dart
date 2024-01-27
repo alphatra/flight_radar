@@ -26,7 +26,7 @@ final router = GoRouter(
           routes: <RouteBase>[
             GoRoute(
               path: '/home',
-              builder: (context, state) => const HomeScreen(title:'s1'),
+              builder: (context, state) => const HomeScreen(title:'Strona Główna'),
             ),
           ],
         ),
@@ -38,7 +38,7 @@ final router = GoRouter(
           GoRoute(
             path: '/search',
             builder: (context, state) {
-              return const SearchScreen(title:'s2');
+              return const SearchScreen(title:'Zakładki');
             },
           ),
         ])

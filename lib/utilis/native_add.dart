@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 
 final DynamicLibrary nativeLib = Platform.isAndroid
-    ? DynamicLibrary.open("libna.so")  // Nazwa twojej skompilowanej biblioteki C++
+    ? DynamicLibrary.open("libne.so")  // Nazwa twojej skompilowanej biblioteki C++
     : DynamicLibrary.process();
 
 typedef FetchFlightsFunc = Pointer<Utf8> Function();

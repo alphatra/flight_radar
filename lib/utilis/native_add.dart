@@ -10,30 +10,79 @@ typedef FetchFlightsFunc = Pointer<Utf8> Function();
 typedef FetchFlights = Pointer<Utf8> Function();
 typedef FetchFlightsFromCityFunc = Pointer<Utf8> Function(Pointer<Utf8>);
 typedef FetchFlightsFromCity = Pointer<Utf8> Function(Pointer<Utf8>);
+typedef FetchFlightsFromToFunc = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+typedef FetchFlightsFromTo = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+typedef FetchFlightsFromToWithDateRangeFunc = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32);
+typedef FetchFlightsFromToWithDateRange = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int);
+
 class FlightService {
   late final FetchFlights _fetchFlights;
+  late final FetchFlightsFromCity _fetchFlightsFromCity;
+  late final FetchFlightsFromTo _fetchFlightsFromTo;
+  late final FetchFlightsFromToWithDateRange _fetchFlightsFromToWithDateRange;
 
   FlightService(DynamicLibrary dynamicLibrary) {
     _fetchFlights = dynamicLibrary
         .lookup<NativeFunction<FetchFlightsFunc>>('fetchFlights')
+        .asFunction();
+    _fetchFlightsFromCity = dynamicLibrary
+        .lookup<NativeFunction<FetchFlightsFromCityFunc>>('fetchFlightsFromCity')
+        .asFunction();
+    _fetchFlightsFromTo = dynamicLibrary
+        .lookup<NativeFunction<FetchFlightsFromToFunc>>('fetchFlightsFromTo')
+        .asFunction();
+    _fetchFlightsFromToWithDateRange = dynamicLibrary
+        .lookup<NativeFunction<FetchFlightsFromToWithDateRangeFunc>>('fetchFlightsFromToWithDateRange')
         .asFunction();
   }
 
   Future<String> getFlights() async {
     final responsePtr = _fetchFlights();
     final response = responsePtr.toDartString();
-    malloc.free(responsePtr);  // Pamiętaj o zwolnieniu pamięci
+    malloc.free(responsePtr);
     return response;
   }
-  Future<String> getFlightsFromCity(String city) async {
-    final fetchFlightsFromCity = nativeLib.lookup<NativeFunction<FetchFlightsFromCityFunc>>('fetchFlightsFromCity')
-        .asFunction<FetchFlightsFromCity>();
 
+  Future<String> getFlightsFromCity(String city) async {
     final cityPtr = city.toNativeUtf8();
-    final responsePtr = fetchFlightsFromCity(cityPtr);
+    final responsePtr = _fetchFlightsFromCity(cityPtr);
     final response = responsePtr.toDartString();
 
     malloc.free(cityPtr);
+    malloc.free(responsePtr);
+
+    return response;
+  }
+
+  Future<String> getFlightsFromTo(String fromCity, String toCity) async {
+    final fromCityPtr = fromCity.toNativeUtf8();
+    final toCityPtr = toCity.toNativeUtf8();
+    final responsePtr = _fetchFlightsFromTo(fromCityPtr, toCityPtr);
+    final response = responsePtr.toDartString();
+
+    malloc.free(fromCityPtr);
+    malloc.free(toCityPtr);
+    malloc.free(responsePtr);
+
+    return response;
+  }
+
+  Future<String> getFlightsFromToWithDateRange(String originCity, String destinationCity, String startDate, String endDate, int adultCount) async {
+    final originCityPtr = originCity.toNativeUtf8();
+    final destinationCityPtr = destinationCity.toNativeUtf8();
+    final startDatePtr = startDate.toNativeUtf8();
+    final endDatePtr = endDate.toNativeUtf8();
+
+    final responsePtr = _fetchFlightsFromToWithDateRange(
+        originCityPtr, destinationCityPtr, startDatePtr, endDatePtr, adultCount
+    );
+
+    final response = responsePtr.toDartString();
+
+    malloc.free(originCityPtr);
+    malloc.free(destinationCityPtr);
+    malloc.free(startDatePtr);
+    malloc.free(endDatePtr);
     malloc.free(responsePtr);
 
     return response;

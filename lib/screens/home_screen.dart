@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flight_radar/utilis/native_add.dart';
 import 'dart:convert';
-import 'package:gap/gap.dart';
-
-import 'package:flight_radar/widgets/search_bar.dart';
+import 'package:flight_radar/widgets/flight_search_bar.dart';
 import 'package:flight_radar/widgets/fligt_view.dart';
-import 'package:flight_radar/widgets/date_picker.dart';
 
 class HomeScreen extends StatefulWidget {
   final String title;
 
-  const HomeScreen({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  const HomeScreen({Key? key, required this.title}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,53 +24,65 @@ class _HomeScreenState extends State<HomeScreen> {
     flights = fetchFlightsData();
   }
 
-  Future<List<dynamic>> fetchFlightsData({String city = ''}) async {
+  Future<List<dynamic>> fetchFlightsData({Map<String, dynamic>? searchParams}) async {
     String flightsJson;
-    if (city.isEmpty) {
-      flightsJson = await flightService.getFlights(); // Pobieranie wszystkich lotów
+    if (searchParams == null || searchParams.isEmpty) {
+      flightsJson = await flightService.getFlights();
     } else {
-      flightsJson = await flightService.getFlightsFromCity(city); // Pobieranie lotów z danego miasta
-    }
-    var decodedJson = jsonDecode(flightsJson);
+      String fromCity = searchParams['from'] ?? '';
+      String toCity = searchParams['to'] ?? '';
+      String departureDate = searchParams['departureDate'] ?? '';
+      String returnDate = searchParams['returnDate'] ?? '';
+      int adultCount = searchParams['adultCount'] ?? 1;
 
-    // Jeśli otrzymany JSON to lista, zwróć ją bezpośrednio
+      if (fromCity.isNotEmpty && toCity.isNotEmpty && departureDate.isNotEmpty && returnDate.isNotEmpty) {
+        flightsJson = await flightService.getFlightsFromToWithDateRange(
+            fromCity, toCity, departureDate, returnDate, adultCount
+        );
+      } else if (fromCity.isNotEmpty && toCity.isNotEmpty) {
+        flightsJson = await flightService.getFlightsFromTo(fromCity, toCity);
+      } else if (fromCity.isNotEmpty) {
+        flightsJson = await flightService.getFlightsFromCity(fromCity);
+      } else {
+        flightsJson = await flightService.getFlights();
+      }
+    }
+
+    var decodedJson = jsonDecode(flightsJson);
     if (decodedJson is List) {
       return decodedJson;
-    }
-
-    // Jeśli otrzymany JSON to mapa, przetwarzaj dalej
-    if (decodedJson is Map<String, dynamic>) {
+    } else if (decodedJson is Map<String, dynamic>) {
       return decodedJson['flights'];
+    } else {
+      throw FormatException('Nieoczekiwany format danych');
     }
-
-    throw FormatException('Nieoczekiwany format danych');
   }
 
-  void onSearch(String city) {
+  void onSearch(Map<String, dynamic> searchParams) {
     setState(() {
-      flights = fetchFlightsData(city: city);
+      flights = fetchFlightsData(searchParams: searchParams);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Column(
         children: [
-          FlightSearchBar(onSearch: onSearch), // Pasek wyszukiwania
-          DatePicker(), // Wybór daty
+          FlightSearchBar(onSearch: onSearch),
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: flights,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Błąd: ${snapshot.error}');
+                  return Center(child: Text('Błąd: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Text('Brak dostępnych lotów');
+                  return Center(child: Text('Brak dostępnych lotów'));
                 } else {
-                  return FlightListView(flights: snapshot.data!); // Lista lotów
+                  return FlightListView(flights: snapshot.data!);
                 }
               },
             ),

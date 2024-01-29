@@ -16,13 +16,15 @@ typedef FetchFlightsFromToWithDateRangeFunc = Pointer<Utf8> Function(Pointer<Utf
 typedef FetchFlightsFromToWithDateRange = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int);
 typedef CreateBookingFunc = Pointer<Utf8> Function(Int32 flightId, Pointer<Utf8> seatNumber, Pointer<Utf8> passengerName);
 typedef CreateBooking = Pointer<Utf8> Function(int flightId, Pointer<Utf8> seatNumber, Pointer<Utf8> passengerName);
-
+typedef FetchReservedSeatsFunc = Pointer<Utf8> Function();
+typedef FetchReservedSeats = Pointer<Utf8> Function();
 class FlightService {
   late final FetchFlights _fetchFlights;
   late final FetchFlightsFromCity _fetchFlightsFromCity;
   late final FetchFlightsFromTo _fetchFlightsFromTo;
   late final FetchFlightsFromToWithDateRange _fetchFlightsFromToWithDateRange;
   late final CreateBooking _createBooking;
+  late final FetchReservedSeats _fetchReservedSeats;
   FlightService(DynamicLibrary dynamicLibrary) {
     _fetchFlights = dynamicLibrary
         .lookup<NativeFunction<FetchFlightsFunc>>('fetchFlights')
@@ -38,6 +40,9 @@ class FlightService {
         .asFunction();
     _createBooking = dynamicLibrary
         .lookup<NativeFunction<CreateBookingFunc>>('createBooking')
+        .asFunction();
+    _fetchReservedSeats = dynamicLibrary
+        .lookup<NativeFunction<FetchReservedSeatsFunc>>('fetchReservedSeats')
         .asFunction();
   }
 
@@ -103,6 +108,12 @@ class FlightService {
     malloc.free(passengerNamePtr);
     malloc.free(responsePtr);
 
+    return response;
+  }
+  Future<String> fetchReservedSeats() async {
+    final responsePtr = _fetchReservedSeats();
+    final response = responsePtr.toDartString();
+    malloc.free(responsePtr);
     return response;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flight_radar/screens/home_screen.dart';
 import 'package:flight_radar/screens/search_screen.dart';
+import 'package:flight_radar/screens/profile_screen.dart';
 import 'package:flight_radar/widgets/scaffold_with_navbar.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -39,6 +40,17 @@ final router = GoRouter(
             path: '/search',
             builder: (context, state) {
               return const SearchScreen(title:'Zakładki');
+            },
+          ),
+        ]),
+
+        StatefulShellBranch(routes: <RouteBase>[
+          // Add this branch routes
+          // each routes with its sub routes if available e.g shope/uuid/details
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) {
+              return const ProfileScreen(title:'Profil');
             },
           ),
         ])

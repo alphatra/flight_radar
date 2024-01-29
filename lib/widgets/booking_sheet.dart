@@ -15,40 +15,26 @@ class _BookingSheetState extends State<BookingSheet> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _seatController = TextEditingController();
 
+  // Importy i definicje klas
+
   Future<void> _createBooking(int flightId, String seatNumber, String passengerName) async {
-    final url = Uri.parse('http://192.168.100.4:8080/createBooking');
-
-    // Data to send in the request body
-    final Map<String, dynamic> data = {
-      'flightId': flightId,
-      'seatNumber': seatNumber,
-      'passengerName': passengerName,
-    };
-
-    // Request headers
-    final Map<String, String> headers = {
-      'Content-Type': 'application/json', // Set content type to JSON
-    };
+    final uri = Uri.parse('http://192.168.100.4:8080/createBooking/$flightId/$seatNumber/$passengerName');
 
     try {
-      final response = await http.post(
-        url,
-        headers: headers,
-        body: jsonEncode(data), // Encode data as JSON
-      );
-
+      final response = await http.get(uri);
       if (response.statusCode == 200) {
-        // Success: Booking created successfully
+        // Sukces
         print('Booking created successfully');
       } else {
-        // Error: Booking creation failed
+        // Błąd
         print('Error creating booking: ${response.statusCode}');
       }
     } catch (e) {
-      // Handle network errors or other exceptions
-      print('An unexpected error occurred: $e');
+      print('Exception when calling createBooking: $e');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
